@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Asisten Pemrograman Aplikasi Mobile</string>
+    <string name="address">Alamat</string>
+    <string name="female">Perempuan</string>
+    <string name="gender">Jenis Kelamin</string>
+    <string name="male">Laki-Laki</string>
+    <string name="name">Nama</string>
+    <string name="register_form">Form Registrasi</string>
+    <string name="submit">Masukan</string>
+    <string name="termAgree">Saya sudah membaca dan setuju dengan persyaratan.</string>
+    <string name="change_language">Ganti Bahasa</string>
+</resources>

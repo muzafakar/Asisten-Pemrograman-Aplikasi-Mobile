@@ -1,3 +1,13 @@
 <resources>
-    <string name="app_name">Asisten Pemrograman Aplikasi Mobile</string>
+    <string name="app_name" translatable="false">Asisten Pemrograman Aplikasi Mobile</string>
+    <string name="name">Name</string>
+    <string name="email" translatable="false">Email</string>
+    <string name="gender">Gender:</string>
+    <string name="female">Female</string>
+    <string name="male">Male</string>
+    <string name="termAgree">I have read and agree with the terms.</string>
+    <string name="submit">Submit</string>
+    <string name="address">Address</string>
+    <string name="register_form">Register Form</string>
+    <string name="change_language">Change Language</string>
 </resources>
