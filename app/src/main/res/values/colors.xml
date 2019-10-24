@@ -3,4 +3,8 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+
+    <color name="homeFragment">#AED581</color>
+    <color name="favoriteFragment">#F06292</color>
+    <color name="profileFragment">#4DD0E1</color>
 </resources>

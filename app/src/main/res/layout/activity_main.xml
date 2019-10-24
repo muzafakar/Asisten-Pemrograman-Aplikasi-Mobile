@@ -17,6 +17,9 @@
         android:id="@+id/bnvHome"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:backgroundTint="@color/favoriteFragment"
+        app:itemIconTint="@drawable/bnv_color"
+        app:itemTextColor="@drawable/bnv_color"
         app:labelVisibilityMode="labeled"
         app:menu="@menu/main_menu" />
 
