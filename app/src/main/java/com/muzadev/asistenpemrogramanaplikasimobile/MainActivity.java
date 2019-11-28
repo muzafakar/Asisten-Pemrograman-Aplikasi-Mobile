@@ -2,7 +2,10 @@ package com.muzadev.asistenpemrogramanaplikasimobile;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,6 +33,8 @@ public class MainActivity extends AppCompatActivity {
     // Deklarasi objek
     private ImageView imgWheaterIcon;
     private TextView tvCondition, tvTemperature, tvCityName;
+    private Button btnGetData;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,8 +43,16 @@ public class MainActivity extends AppCompatActivity {
 
         // Inisialisasi
         bindView();
-        getWeatherData();
+
+        btnGetData.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                progressBar.setVisibility(View.VISIBLE);
+                getWeatherData();
 //        getWeatherDataRetrofit();
+
+            }
+        });
     }
 
     private void getWeatherData() {
@@ -53,7 +66,6 @@ public class MainActivity extends AppCompatActivity {
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
-
             }
 
             @Override
@@ -105,12 +117,12 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(retrofit2.Call<WeatherResponse> call, Throwable t) {
-
             }
         });
     }
 
     private void showData(String cityName, String weatherCondition, String icon, double temperature) {
+        progressBar.setVisibility(View.GONE);
         tvCityName.setText(cityName);
         tvCondition.setText(weatherCondition);
         tvTemperature.setText(temperature + " C");
@@ -124,6 +136,8 @@ public class MainActivity extends AppCompatActivity {
         tvCondition = findViewById(R.id.tvCondition);
         tvTemperature = findViewById(R.id.tvTemperature);
         tvCityName = findViewById(R.id.tvCityName);
+        btnGetData = findViewById(R.id.btnGetData);
+        progressBar = findViewById(R.id.pbLoading);
     }
 
 }
