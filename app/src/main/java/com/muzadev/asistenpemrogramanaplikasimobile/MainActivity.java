@@ -8,6 +8,9 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
+import com.muzadev.asistenpemrogramanaplikasimobile.model.WeatherResponse;
+import com.muzadev.asistenpemrogramanaplikasimobile.network.RetrofiteClient;
+import com.muzadev.asistenpemrogramanaplikasimobile.network.WeatherApi;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -20,6 +23,7 @@ import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import retrofit2.Retrofit;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -35,11 +39,10 @@ public class MainActivity extends AppCompatActivity {
         // Inisialisasi
         bindView();
         getWeatherData();
+//        getWeatherDataRetrofit();
     }
 
     private void getWeatherData() {
-        String cityName = "Yogyakarta";
-        String apiToken = "b6907d289e10d714a6e88b30761fae22";
         String url = "https://openweathermap.org/data/2.5/weather?appid=b6907d289e10d714a6e88b30761fae22&q=Yogyakarta";
 
         OkHttpClient okHttpClient = new OkHttpClient();
@@ -78,6 +81,31 @@ public class MainActivity extends AppCompatActivity {
                 } catch (Exception ex) {
                     Log.e("Response", ex.getMessage());
                 }
+            }
+        });
+    }
+
+    private void getWeatherDataRetrofit() {
+        Retrofit retrofit = RetrofiteClient.create();
+        WeatherApi weatherApi = retrofit.create(WeatherApi.class);
+
+        String cityName = "Yogyakarta";
+        String apiToken = "b6907d289e10d714a6e88b30761fae22";
+
+        weatherApi.getWheater(cityName, apiToken).enqueue(new retrofit2.Callback<WeatherResponse>() {
+            @Override
+            public void onResponse(retrofit2.Call<WeatherResponse> call, retrofit2.Response<WeatherResponse> response) {
+                String cityName = response.body().getName();
+                String condition = response.body().getWeather().get(0).getDescription();
+                String icon = response.body().getWeather().get(0).getIcon();
+                double temperature = response.body().getMain().getTemp();
+
+                showData(cityName, condition, icon, temperature);
+            }
+
+            @Override
+            public void onFailure(retrofit2.Call<WeatherResponse> call, Throwable t) {
+
             }
         });
     }
