@@ -23,5 +23,4 @@
         app:labelVisibilityMode="labeled"
         app:menu="@menu/main_menu" />
 
-
 </LinearLayout>
