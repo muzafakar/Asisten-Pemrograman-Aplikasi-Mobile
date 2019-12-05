@@ -19,9 +19,6 @@ import com.google.firebase.database.ValueEventListener;
 import com.muzadev.asistenpemrogramanaplikasimobile.adapter.ChatAdapter;
 import com.muzadev.asistenpemrogramanaplikasimobile.model.Chat;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class MainActivity extends AppCompatActivity {
     private Button btnSend;
     private EditText etMessage;
@@ -58,19 +55,14 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void listenChatNode() {
-
         chatReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                List<Chat> chatList = new ArrayList<>();
                 for (DataSnapshot data : dataSnapshot.getChildren()) {
                     Chat chat = data.getValue(Chat.class);
-                    chatList.add(chat);
-                    Log.d("RTDB", chat.getUsername());
-                    Log.d("RTDB", chat.getMessage());
+                    Log.d("CHAT GAN", chat.toString());
                 }
 
-                chatAdapter.setData(chatList);
             }
 
             @Override
