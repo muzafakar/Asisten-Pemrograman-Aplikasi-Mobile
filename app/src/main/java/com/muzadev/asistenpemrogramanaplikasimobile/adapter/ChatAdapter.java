@@ -15,6 +15,7 @@ import com.muzadev.asistenpemrogramanaplikasimobile.model.Chat;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
     private List<Chat> chatList;
     private Context context;
@@ -33,6 +34,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        // R.layout.namaLayout
         View v = LayoutInflater.from(context).inflate(R.layout.item_chat, parent, false);
         return new ViewHolder(v);
     }

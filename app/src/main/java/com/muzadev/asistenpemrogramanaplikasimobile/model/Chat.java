@@ -5,6 +5,7 @@ public class Chat {
     private String message;
 
     public Chat() {
+        // Default Constructor kosong
     }
 
     public Chat(String username, String message) {
@@ -16,15 +17,9 @@ public class Chat {
         return username;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
 
     public String getMessage() {
         return message;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
-    }
 }
