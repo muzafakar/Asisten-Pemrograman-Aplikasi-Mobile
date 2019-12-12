@@ -1,6 +1,7 @@
 package com.muzadev.asistenpemrogramanaplikasimobile.view;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -44,8 +45,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getTodoData() {
-        List<Todo> data = todoDao.readAllTodo();
-        adpTodo.setData(data);
+        try {
+            adpTodo.setData(new ReadTodoAsync().execute().get());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -60,5 +64,12 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(this, TodoActivity.class));
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private class ReadTodoAsync extends AsyncTask<Void, Void, List<Todo>> {
+        @Override
+        protected List<Todo> doInBackground(Void... voids) {
+            return todoDao.readAllTodo();
+        }
     }
 }
