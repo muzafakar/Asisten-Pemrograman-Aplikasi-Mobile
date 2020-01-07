@@ -32,12 +32,44 @@ public class TodoActivity extends AppCompatActivity {
 
         todoDao = AppDatabase.getInstance(this).todoDao();
 
+        Todo currentTodo = (Todo) getIntent().getSerializableExtra("todo");
+        if (currentTodo != null) {
+            // tampilkan todo yang sudah ada
+            populateCurrentTodo(currentTodo);
+        } else {
+            btnSave.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    saveTodo();
+                }
+            });
+        }
+
+
+    }
+
+    private void populateCurrentTodo(final Todo currentTodo) {
+        etTodoTitle.setText(currentTodo.getTitle());
+        etTodoContent.setText(currentTodo.getContent());
+
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                saveTodo();
+                updateTodo(currentTodo);
             }
         });
+    }
+
+    private void updateTodo(Todo currentTodo) {
+        String newTitle = etTodoTitle.getText().toString();
+        String newContent = etTodoContent.getText().toString();
+        Date newDate = new Date();
+        currentTodo.setTitle(newTitle);
+        currentTodo.setContent(newContent);
+        currentTodo.setDate(newDate);
+
+        // currentTodo siap digunakan untuk update
+        new UpdateTodoAsync().execute(currentTodo);
     }
 
     private void saveTodo() {
@@ -57,14 +89,23 @@ public class TodoActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            Toast.makeText(TodoActivity.this, "Todo saved", Toast.LENGTH_SHORT).show();
+            Toast.makeText(TodoActivity.this, "Todo saved!", Toast.LENGTH_SHORT).show();
             finish();
         }
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        finish();
+    private class UpdateTodoAsync extends AsyncTask<Todo, Void, Void> {
+        @Override
+        protected Void doInBackground(Todo... todos) {
+            todoDao.updateTodo(todos[0]);
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            Toast.makeText(TodoActivity.this, "Todo updated!", Toast.LENGTH_SHORT).show();
+            finish();
+        }
     }
 }

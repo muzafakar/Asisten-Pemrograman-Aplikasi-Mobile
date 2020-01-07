@@ -71,7 +71,9 @@ public class MainActivity extends AppCompatActivity implements AdapterCallback {
     @Override
     public void menuEdit(Todo todo) {
         // handle edit
-        Toast.makeText(this, "edit: " + todo.getId(), Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, TodoActivity.class);
+        intent.putExtra("todo", todo);
+        startActivity(intent);
     }
 
     @Override

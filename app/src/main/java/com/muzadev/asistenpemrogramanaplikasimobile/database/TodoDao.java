@@ -4,6 +4,7 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import com.muzadev.asistenpemrogramanaplikasimobile.model.Todo;
 
@@ -19,4 +20,7 @@ public interface TodoDao {
 
     @Query("DELETE FROM todo where id=:todoId")
     void deleteTodo(int todoId);
+
+    @Update
+    void updateTodo(Todo todo);
 }
