@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.muzadev.asistenpemrogramanaplikasimobile.R;
+import com.muzadev.asistenpemrogramanaplikasimobile.adapter.AdapterCallback;
 import com.muzadev.asistenpemrogramanaplikasimobile.adapter.AdpTodo;
 import com.muzadev.asistenpemrogramanaplikasimobile.database.AppDatabase;
 import com.muzadev.asistenpemrogramanaplikasimobile.database.TodoDao;
@@ -20,7 +22,7 @@ import com.muzadev.asistenpemrogramanaplikasimobile.model.Todo;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements AdapterCallback {
     private RecyclerView rvTodo;
     private AdpTodo adpTodo;
     private TodoDao todoDao;
@@ -31,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         todoDao = AppDatabase.getInstance(this).todoDao();
-        adpTodo = new AdpTodo(this);
+        adpTodo = new AdpTodo(this, this);
         rvTodo = findViewById(R.id.rvTodo);
         rvTodo.setLayoutManager(new LinearLayoutManager(this));
         rvTodo.addItemDecoration(new DividerItemDecoration(this, RecyclerView.VERTICAL));
@@ -66,10 +68,31 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void menuEdit(Todo todo) {
+        // handle edit
+        Toast.makeText(this, "edit: " + todo.getId(), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void menuDelete(Todo todo) {
+        // handle delete
+        new DeleteTodoAsync().execute(todo);
+        getTodoData();
+    }
+
     private class ReadTodoAsync extends AsyncTask<Void, Void, List<Todo>> {
         @Override
         protected List<Todo> doInBackground(Void... voids) {
             return todoDao.readAllTodo();
+        }
+    }
+
+    private class DeleteTodoAsync extends AsyncTask<Todo, Void, Void> {
+        @Override
+        protected Void doInBackground(Todo... todos) {
+            todoDao.deleteTodo(todos[0].getId());
+            return null;
         }
     }
 }

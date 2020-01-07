@@ -2,10 +2,14 @@ package com.muzadev.asistenpemrogramanaplikasimobile.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,10 +23,12 @@ import java.util.List;
 
 public class AdpTodo extends RecyclerView.Adapter<AdpTodo.ViewHolder> {
     private Context context;
+    private AdapterCallback adapterCallback;
     private List<Todo> todoList;
 
-    public AdpTodo(Context context) {
+    public AdpTodo(Context context, AdapterCallback adapterCallback) {
         this.context = context;
+        this.adapterCallback = adapterCallback;
         todoList = new ArrayList<>();
     }
 
@@ -49,18 +55,22 @@ public class AdpTodo extends RecyclerView.Adapter<AdpTodo.ViewHolder> {
         return todoList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder
+            implements View.OnCreateContextMenuListener, MenuItem.OnMenuItemClickListener {
         private TextView tvTodoTitle, tvTodoContent;
+        private Todo selectedTodo;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             tvTodoTitle = itemView.findViewById(R.id.tvTodoTitle);
             tvTodoContent = itemView.findViewById(R.id.tvTodoContent);
+            itemView.setOnCreateContextMenuListener(this);
         }
 
         public void bindView(final Todo todo) {
             tvTodoTitle.setText(todo.getTitle());
             tvTodoContent.setText(todo.getContent());
+            this.selectedTodo = todo;
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -70,6 +80,31 @@ public class AdpTodo extends RecyclerView.Adapter<AdpTodo.ViewHolder> {
                     context.startActivity(intent);
                 }
             });
+        }
+
+        @Override
+        public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+            // create the context menu
+            MenuItem menuEdit = menu.add(Menu.NONE, 1, 1, "Edit");
+            MenuItem menuDelete = menu.add(Menu.NONE, 2, 2, "Delete");
+
+            menuEdit.setOnMenuItemClickListener(this);
+            menuDelete.setOnMenuItemClickListener(this);
+        }
+
+        @Override
+        public boolean onMenuItemClick(MenuItem item) {
+            switch (item.getItemId()) {
+                case 1:
+                    // handle edit
+                    adapterCallback.menuEdit(selectedTodo);
+                    break;
+                case 2:
+                    // handle delete
+                    adapterCallback.menuDelete(selectedTodo);
+                    break;
+            }
+            return true;
         }
     }
 }
