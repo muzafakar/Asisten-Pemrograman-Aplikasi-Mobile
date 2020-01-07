@@ -1,6 +1,7 @@
 package com.muzadev.asistenpemrogramanaplikasimobile.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.muzadev.asistenpemrogramanaplikasimobile.R;
 import com.muzadev.asistenpemrogramanaplikasimobile.model.Todo;
+import com.muzadev.asistenpemrogramanaplikasimobile.view.TodoDetailActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,9 +58,18 @@ public class AdpTodo extends RecyclerView.Adapter<AdpTodo.ViewHolder> {
             tvTodoContent = itemView.findViewById(R.id.tvTodoContent);
         }
 
-        public void bindView(Todo todo) {
+        public void bindView(final Todo todo) {
             tvTodoTitle.setText(todo.getTitle());
             tvTodoContent.setText(todo.getContent());
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, TodoDetailActivity.class);
+                    intent.putExtra("todo", todo);
+                    context.startActivity(intent);
+                }
+            });
         }
     }
 }

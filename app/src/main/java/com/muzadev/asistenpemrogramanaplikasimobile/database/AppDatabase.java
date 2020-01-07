@@ -5,13 +5,15 @@ import android.content.Context;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import androidx.room.TypeConverters;
 
 import com.muzadev.asistenpemrogramanaplikasimobile.model.Todo;
 
 @Database(
         entities = {Todo.class},
-        version = 1
+        version = 2
 )
+@TypeConverters({DateConverter.class})
 public abstract class AppDatabase extends RoomDatabase {
     public abstract TodoDao todoDao();
 

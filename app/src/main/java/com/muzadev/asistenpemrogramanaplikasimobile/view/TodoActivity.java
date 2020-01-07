@@ -14,6 +14,8 @@ import com.muzadev.asistenpemrogramanaplikasimobile.database.AppDatabase;
 import com.muzadev.asistenpemrogramanaplikasimobile.database.TodoDao;
 import com.muzadev.asistenpemrogramanaplikasimobile.model.Todo;
 
+import java.util.Date;
+
 public class TodoActivity extends AppCompatActivity {
     private EditText etTodoContent, etTodoTitle;
     private Button btnSave;
@@ -41,7 +43,7 @@ public class TodoActivity extends AppCompatActivity {
     private void saveTodo() {
         String title = etTodoTitle.getText().toString();
         String content = etTodoContent.getText().toString();
-        Todo todo = new Todo(title, content);
+        Todo todo = new Todo(title, content, new Date());
         new CreateTodoAsync().execute(todo);
     }
 
